@@ -4,18 +4,22 @@
 enum	argid {
 	ARG_UNKNWN,
 	ARG_HELP,
-	ARG_PRESET
+	ARG_SPLIT,
+	ARG_PRESET,
+	ARG_JOIN
 };
 
 void	display_help ( )
 {
 	/* the help message */
 	char*	help_msg =	(char *)
-				" usage:\n"
-				"   --help:		display this message\n"
-				"   -p, --preset:	select a preset...\n"
-				"			  fat32,\n"
-				"			  etc;";
+				" usage: fsplit <options> <input_files>\n"
+				"   options:\n"
+				"   -h, --help:		display this message.\n"
+				"   -s, --split:	split input file into smaller pieces.\n"
+				"     -p, --preset:	select a preset...\n"
+				"			  fat32: optimized for fat32 filesystems.\n"
+				"   -j, --join:		join input files into a complete whole.";
 
 	std::cout << help_msg << '\n';
 }
@@ -32,6 +36,12 @@ argid	id_argv ( char* arg )
 
 	if ( strcmp(arg, "--help") == 0 || strcmp(arg, "-h") == 0 )
 		retid	= ARG_HELP;
+
+	if ( strcmp(arg, "--join") == 0 || strcmp(arg, "-j") == 0 )
+		retid	= ARG_JOIN;
+
+	if ( strcmp(arg, "--split") == 0 || strcmp(arg, "-s") == 0 )
+		retid	= ARG_SPLIT;
 
 	if ( strcmp(arg, "--preset") ==0 || strcmp(arg, "-p") == 0 )
 		retid	= ARG_PRESET;
@@ -54,10 +64,20 @@ bool	handle_arguments ( int argc, char** argv )
 		switch ( id_argv(argv[count]) ) {
 			case ARG_UNKNWN:
 				std::cout << "error: unknown argument '" <<
-					argv[count] << "'.\n";
+					argv[count] << "'.\n\n";
+				/* break; not needed as it will go straight
+				 * to help. */
 			case ARG_HELP:
 				display_help();
 				cont	= false;
+				break;
+			case ARG_JOIN:
+				count++;
+				std::cout << "this feature has not been implemented yet, sorry :(\n";
+				break;
+			case ARG_SPLIT:
+				count++;
+				std::cout << "this feature has not been implemented yet, sorry :(\n";
 				break;
 			case ARG_PRESET:
 				count++;

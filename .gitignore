@@ -1,8 +1,8 @@
 # pesky vim .swp files
-.swp
+*.swp
 
 # object file vermin
-.o
+*.o
 
 # terrible binary files
 fsplit
